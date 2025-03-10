@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jd.mlz.module.module.region.mapper.RegionMapper">
+    <insert id="insert" parameterType="jd.mlz.module.module.region.entity.Region" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into region(
+                    <if test="region.parentId!=null">parent_id, </if>
+                    <if test="region.regionName!=null and region.regionName!=''">region_name,</if>
+                    <if test="region.regionLevel!=null">region_level, </if>
+                    <if test="region.createTime!=null">create_time, </if>
+                    <if test="region.updateTime!=null">update_time, </if>
+                    is_deleted
+        )values(
+                    <if test="region.parentId!=null">#{region.parentId}, </if>
+                    <if test="region.regionName!=null and region.regionName!=''">#{region.regionName},</if>
+                    <if test="region.regionLevel!=null">#{region.regionLevel}, </if>
+                    <if test="region.createTime!=null">#{region.createTime}, </if>
+                    <if test="region.updateTime!=null">#{region.updateTime}, </if>
+                    #{region.isDeleted}
+        )
+    </insert>
+
+    <update id="update" parameterType="jd.mlz.module.module.region.entity.Region" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        update region
+        set id=#{region.id}
+                    <if test="region.parentId!=null">,parent_id=#{region.parentId}</if>
+                    <if test="region.regionName!=null and region.regionName!=''">,region_name=#{region.regionName}</if>
+                    <if test="region.regionLevel!=null">,region_level=#{region.regionLevel}</if>
+                    <if test="region.updateTime!=null">,update_time=#{region.updateTime}</if>
+        where id = #{region.id} limit 1
+    </update>
+</mapper>

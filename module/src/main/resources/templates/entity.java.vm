@@ -1,0 +1,39 @@
+package ${package.Entity};
+
+#foreach($pkg in ${table.importPackages})
+
+import ${pkg};
+#end
+#if(${entityLombokModel})
+import lombok.Data;
+#if(${chainModel})
+import lombok.experimental.Accessors;
+#end
+#end
+
+/**
+ * <p>
+ * $!{table.comment}
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+#if(${entityLombokModel})
+@Data
+  #if(${chainModel})
+@Accessors(chain = true)
+  #end
+#end
+public class ${entity}{
+## ----------  BEGIN 字段循环遍历  ----------
+#foreach($field in ${table.fields})
+
+#if("$!field.comment" != "")
+    //${field.comment}
+#end
+    private ${field.propertyType} ${field.propertyName};
+#end
+## ----------  END 字段循环遍历  ----------
+
+}

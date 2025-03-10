@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jd.mlz.module.module.user.mapper.UserMapper">
+    <insert id="insert" parameterType="jd.mlz.module.module.user.entity.User" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into user(
+                    <if test="user.phone!=null and user.phone!=''">phone,</if>
+                    <if test="user.salt!=null and user.salt!=''">salt,</if>
+                    <if test="user.password!=null and user.password!=''">password,</if>
+                    <if test="user.realName!=null and user.realName!=''">real_name,</if>
+                    <if test="user.idCard!=null and user.idCard!=''">id_card,</if>
+                    <if test="user.sex!=null">sex, </if>
+                    <if test="user.photo!=null and user.photo!=''">photo,</if>
+                    <if test="user.birthDate!=null">birth_date, </if>
+                    <if test="user.createTime!=null">create_time, </if>
+                    <if test="user.updateTime!=null">update_time, </if>
+                    is_deleted
+        )values(
+                    <if test="user.phone!=null and user.phone!=''">#{user.phone},</if>
+                    <if test="user.salt!=null and user.salt!=''">#{user.salt},</if>
+                    <if test="user.password!=null and user.password!=''">#{user.password},</if>
+                    <if test="user.realName!=null and user.realName!=''">#{user.realName},</if>
+                    <if test="user.idCard!=null and user.idCard!=''">#{user.idCard},</if>
+                    <if test="user.sex!=null">#{user.sex}, </if>
+                    <if test="user.photo!=null and user.photo!=''">#{user.photo},</if>
+                    <if test="user.birthDate!=null">#{user.birthDate}, </if>
+                    <if test="user.createTime!=null">#{user.createTime}, </if>
+                    <if test="user.updateTime!=null">#{user.updateTime}, </if>
+                    #{user.isDeleted}
+        )
+    </insert>
+
+    <update id="update" parameterType="jd.mlz.module.module.user.entity.User" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        update user
+        set id=#{user.id}
+                    <if test="user.phone!=null and user.phone!=''">,phone=#{user.phone}</if>
+                    <if test="user.salt!=null and user.salt!=''">,salt=#{user.salt}</if>
+                    <if test="user.password!=null and user.password!=''">,password=#{user.password}</if>
+                    <if test="user.realName!=null and user.realName!=''">,real_name=#{user.realName}</if>
+                    <if test="user.idCard!=null and user.idCard!=''">,id_card=#{user.idCard}</if>
+                    <if test="user.sex!=null">,sex=#{user.sex}</if>
+                    <if test="user.photo!=null and user.photo!=''">,photo=#{user.photo}</if>
+                    <if test="user.birthDate!=null">,birth_date=#{user.birthDate}</if>
+                    <if test="user.updateTime!=null">,update_time=#{user.updateTime}</if>
+        where id = #{user.id} limit 1
+    </update>
+</mapper>

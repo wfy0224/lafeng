@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jd.mlz.module.module.gcRecord.mapper.GcRecordAttachCrondMapper">
+    <insert id="insert" parameterType="jd.mlz.module.module.gcRecord.entity.GcRecordAttachCrond" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into gc_record_attach_crond(
+                    <if test="gcRecordAttachCrond.recordId!=null">record_id, </if>
+                    <if test="gcRecordAttachCrond.isRun!=null">is_run, </if>
+                    <if test="gcRecordAttachCrond.isEnd!=null">is_end, </if>
+                    <if test="gcRecordAttachCrond.deviceIdentifier!=null and gcRecordAttachCrond.deviceIdentifier!=''">device_identifier,</if>
+                    <if test="gcRecordAttachCrond.recordTime!=null">record_time, </if>
+                    <if test="gcRecordAttachCrond.createTime!=null">create_time, </if>
+                    <if test="gcRecordAttachCrond.updateTime!=null">update_time, </if>
+                    is_deleted
+        )values(
+                    <if test="gcRecordAttachCrond.recordId!=null">#{gcRecordAttachCrond.recordId}, </if>
+                    <if test="gcRecordAttachCrond.isRun!=null">#{gcRecordAttachCrond.isRun}, </if>
+                    <if test="gcRecordAttachCrond.isEnd!=null">#{gcRecordAttachCrond.isEnd}, </if>
+                    <if test="gcRecordAttachCrond.deviceIdentifier!=null and gcRecordAttachCrond.deviceIdentifier!=''">#{gcRecordAttachCrond.deviceIdentifier},</if>
+                    <if test="gcRecordAttachCrond.recordTime!=null">#{gcRecordAttachCrond.recordTime}, </if>
+                    <if test="gcRecordAttachCrond.createTime!=null">#{gcRecordAttachCrond.createTime}, </if>
+                    <if test="gcRecordAttachCrond.updateTime!=null">#{gcRecordAttachCrond.updateTime}, </if>
+                    #{gcRecordAttachCrond.isDeleted}
+        )
+    </insert>
+
+    <update id="update" parameterType="jd.mlz.module.module.gcRecord.entity.GcRecordAttachCrond" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        update gc_record_attach_crond
+        set id=#{gcRecordAttachCrond.id}
+                    <if test="gcRecordAttachCrond.recordId!=null">,record_id=#{gcRecordAttachCrond.recordId}</if>
+                    <if test="gcRecordAttachCrond.isRun!=null">,is_run=#{gcRecordAttachCrond.isRun}</if>
+                    <if test="gcRecordAttachCrond.isEnd!=null">,is_end=#{gcRecordAttachCrond.isEnd}</if>
+                    <if test="gcRecordAttachCrond.deviceIdentifier!=null and gcRecordAttachCrond.deviceIdentifier!=''">,device_identifier=#{gcRecordAttachCrond.deviceIdentifier}</if>
+                    <if test="gcRecordAttachCrond.recordTime!=null">,record_time=#{gcRecordAttachCrond.recordTime}</if>
+                    <if test="gcRecordAttachCrond.updateTime!=null">,update_time=#{gcRecordAttachCrond.updateTime}</if>
+        where id = #{gcRecordAttachCrond.id} limit 1
+    </update>
+</mapper>

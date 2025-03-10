@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="${package.Mapper}.${table.mapperName}">
+    <insert id="insert" parameterType="${package.Entity}.${table.entityName}" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into ${table.name}(
+        #foreach($field in ${table.fields})
+            #if(${field.name}!="id" and ${field.name}!="is_deleted")
+                #if(${field.propertyType}=="String")
+                    <if test="${entity.substring(0,1).toLowerCase()}${entity.substring(1)}.${field.propertyName}!=null and ${entity.substring(0,1).toLowerCase()}${entity.substring(1)}.${field.propertyName}!=''">${field.name},</if>
+                #else
+                    <if test="${entity.substring(0,1).toLowerCase()}${entity.substring(1)}.${field.propertyName}!=null">${field.name}, </if>
+                #end
+            #end
+        #end
+                    is_deleted
+        )values(
+        #foreach($field in ${table.fields})
+            #if(${field.name}!="id" and ${field.name}!="is_deleted")
+                #if(${field.propertyType}=="String")
+                    <if test="${entity.substring(0,1).toLowerCase()}${entity.substring(1)}.${field.propertyName}!=null and ${entity.substring(0,1).toLowerCase()}${entity.substring(1)}.${field.propertyName}!=''">#{${entity.substring(0,1).toLowerCase()}${entity.substring(1)}.${field.propertyName}},</if>
+                #else
+                    <if test="${entity.substring(0,1).toLowerCase()}${entity.substring(1)}.${field.propertyName}!=null">#{${entity.substring(0,1).toLowerCase()}${entity.substring(1)}.${field.propertyName}}, </if>
+                #end
+            #end
+        #end
+                    #{${entity.substring(0,1).toLowerCase()}${entity.substring(1)}.isDeleted}
+        )
+    </insert>
+
+    <update id="update" parameterType="${package.Entity}.${table.entityName}" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        update ${table.name}
+        set id=#{${entity.substring(0,1).toLowerCase()}${entity.substring(1)}.id}
+        #foreach($field in ${table.fields})
+            #if(${field.name}!="id" and ${field.name}!="create_time" and ${field.name}!="is_deleted")
+                #if(${field.propertyType}=="String")
+                    <if test="${entity.substring(0,1).toLowerCase()}${entity.substring(1)}.${field.propertyName}!=null and ${entity.substring(0,1).toLowerCase()}${entity.substring(1)}.${field.propertyName}!=''">,${field.name}=#{${entity.substring(0,1).toLowerCase()}${entity.substring(1)}.${field.propertyName}}</if>
+                #else
+                    <if test="${entity.substring(0,1).toLowerCase()}${entity.substring(1)}.${field.propertyName}!=null">,${field.name}=#{${entity.substring(0,1).toLowerCase()}${entity.substring(1)}.${field.propertyName}}</if>
+                #end
+            #end
+        #end
+        where id = #{${entity.substring(0,1).toLowerCase()}${entity.substring(1)}.id} limit 1
+    </update>
+</mapper>

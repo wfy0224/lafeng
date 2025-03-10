@@ -1,0 +1,32 @@
+package ${package.Mapper};
+
+import ${package.Entity}.${entity};
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+import java.math.BigInteger;
+/**
+ * <p>
+ * $!{table.comment} Mapper 接口
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Mapper
+public interface ${table.mapperName}{
+
+    int insert(@Param("${entity.substring(0,1).toLowerCase()}${entity.substring(1)}") ${entity} ${entity.substring(0,1).toLowerCase()}${entity.substring(1)});
+
+    int update(@Param("${entity.substring(0,1).toLowerCase()}${entity.substring(1)}") ${entity} ${entity.substring(0,1).toLowerCase()}${entity.substring(1)});
+
+    @Select("select * from ${table.name} where id=#{id} and is_deleted=0 limit 1")
+    ${entity} getById(@Param("id") BigInteger id);
+
+    @Select("select * from ${table.name} where id=#{id} limit 1")
+    ${entity} extractById(@Param("id") BigInteger id);
+
+    @Update("update ${table.name} set update_time=#{time},is_deleted=1 where id = #{id} limit 1")
+    int delete(@Param("id") BigInteger id,@Param("time")Integer time);
+}

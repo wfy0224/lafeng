@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jd.mlz.module.module.gcRecord.mapper.GcExportTaskMapper">
+    <insert id="insert" parameterType="jd.mlz.module.module.gcRecord.entity.GcExportTask" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into gc_export_task(
+                    <if test="gcExportTask.taskType!=null">task_type, </if>
+                    <if test="gcExportTask.regionId!=null">region_id, </if>
+                    <if test="gcExportTask.startTime!=null">start_time, </if>
+                    <if test="gcExportTask.endTime!=null">end_time, </if>
+                    <if test="gcExportTask.result!=null">result, </if>
+                    file_name,
+                    oss_bucket,
+                    oss_path,
+                    oss_url,
+                    error_msg,
+                    <if test="gcExportTask.userId!=null">user_id, </if>
+                    <if test="gcExportTask.processTime!=null">process_time, </if>
+                    <if test="gcExportTask.createTime!=null">create_time, </if>
+                    <if test="gcExportTask.updateTime!=null">update_time, </if>
+                    is_deleted
+        )values(
+                    <if test="gcExportTask.taskType!=null">#{gcExportTask.taskType}, </if>
+                    <if test="gcExportTask.regionId!=null">#{gcExportTask.regionId}, </if>
+                    <if test="gcExportTask.startTime!=null">#{gcExportTask.startTime}, </if>
+                    <if test="gcExportTask.endTime!=null">#{gcExportTask.endTime}, </if>
+                    <if test="gcExportTask.result!=null">#{gcExportTask.result}, </if>
+                    #{gcExportTask.fileName},
+                    #{gcExportTask.ossBucket},
+                    #{gcExportTask.ossPath},
+                    #{gcExportTask.ossUrl},
+                    #{gcExportTask.errorMsg},
+                    <if test="gcExportTask.userId!=null">#{gcExportTask.userId}, </if>
+                    <if test="gcExportTask.processTime!=null">#{gcExportTask.processTime}, </if>
+                    <if test="gcExportTask.createTime!=null">#{gcExportTask.createTime}, </if>
+                    <if test="gcExportTask.updateTime!=null">#{gcExportTask.updateTime}, </if>
+                    #{gcExportTask.isDeleted}
+        )
+    </insert>
+
+    <update id="update" parameterType="jd.mlz.module.module.gcRecord.entity.GcExportTask" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        update gc_export_task
+        set id=#{gcExportTask.id}
+                    <if test="gcExportTask.taskType!=null">,task_type=#{gcExportTask.taskType}</if>
+                    <if test="gcExportTask.regionId!=null">,region_id=#{gcExportTask.regionId}</if>
+                    <if test="gcExportTask.startTime!=null">,start_time=#{gcExportTask.startTime}</if>
+                    <if test="gcExportTask.endTime!=null">,end_time=#{gcExportTask.endTime}</if>
+                    <if test="gcExportTask.result!=null">,result=#{gcExportTask.result}</if>
+                    <if test="gcExportTask.fileName!=null and gcExportTask.fileName!=''">,file_name=#{gcExportTask.fileName}</if>
+                    <if test="gcExportTask.ossBucket!=null and gcExportTask.ossBucket!=''">,oss_bucket=#{gcExportTask.ossBucket}</if>
+                    <if test="gcExportTask.ossPath!=null and gcExportTask.ossPath!=''">,oss_path=#{gcExportTask.ossPath}</if>
+                    <if test="gcExportTask.ossUrl!=null and gcExportTask.ossUrl!=''">,oss_url=#{gcExportTask.ossUrl}</if>
+                    ,error_msg=#{gcExportTask.errorMsg}
+                    <if test="gcExportTask.userId!=null">,user_id=#{gcExportTask.userId}</if>
+                    <if test="gcExportTask.processTime!=null">,process_time=#{gcExportTask.processTime}</if>
+                    <if test="gcExportTask.updateTime!=null">,update_time=#{gcExportTask.updateTime}</if>
+        where id = #{gcExportTask.id} limit 1
+    </update>
+</mapper>

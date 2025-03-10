@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jd.mlz.module.module.gcStatUserViolation.mapper.GcStatUserViolationMapper">
+    <insert id="insert" parameterType="jd.mlz.module.module.gcStatUserViolation.entity.GcStatUserViolation" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into gc_stat_user_violation(
+                    <if test="gcStatUserViolation.regionId!=null">region_id, </if>
+                    <if test="gcStatUserViolation.houseId!=null">house_id, </if>
+                    <if test="gcStatUserViolation.userId!=null">user_id, </if>
+                    <if test="gcStatUserViolation.houseHolderId!=null">house_holder_id, </if>
+                    <if test="gcStatUserViolation.violationAmount!=null">violation_amount, </if>
+                    <if test="gcStatUserViolation.lastViolationRecordId!=null">last_violation_record_id, </if>
+                    <if test="gcStatUserViolation.isExposure!=null">is_exposure, </if>
+                    <if test="gcStatUserViolation.createTime!=null">create_time, </if>
+                    <if test="gcStatUserViolation.updateTime!=null">update_time, </if>
+                    is_deleted
+        )values(
+                    <if test="gcStatUserViolation.regionId!=null">#{gcStatUserViolation.regionId}, </if>
+                    <if test="gcStatUserViolation.houseId!=null">#{gcStatUserViolation.houseId}, </if>
+                    <if test="gcStatUserViolation.userId!=null">#{gcStatUserViolation.userId}, </if>
+                    <if test="gcStatUserViolation.houseHolderId!=null">#{gcStatUserViolation.houseHolderId}, </if>
+                    <if test="gcStatUserViolation.violationAmount!=null">#{gcStatUserViolation.violationAmount}, </if>
+                    <if test="gcStatUserViolation.lastViolationRecordId!=null">#{gcStatUserViolation.lastViolationRecordId}, </if>
+                    <if test="gcStatUserViolation.isExposure!=null">#{gcStatUserViolation.isExposure}, </if>
+                    <if test="gcStatUserViolation.createTime!=null">#{gcStatUserViolation.createTime}, </if>
+                    <if test="gcStatUserViolation.updateTime!=null">#{gcStatUserViolation.updateTime}, </if>
+                    #{gcStatUserViolation.isDeleted}
+        )
+    </insert>
+
+    <update id="update" parameterType="jd.mlz.module.module.gcStatUserViolation.entity.GcStatUserViolation" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        update gc_stat_user_violation
+        set id=#{gcStatUserViolation.id}
+                    <if test="gcStatUserViolation.regionId!=null">,region_id=#{gcStatUserViolation.regionId}</if>
+                    <if test="gcStatUserViolation.houseId!=null">,house_id=#{gcStatUserViolation.houseId}</if>
+                    <if test="gcStatUserViolation.userId!=null">,user_id=#{gcStatUserViolation.userId}</if>
+                    <if test="gcStatUserViolation.houseHolderId!=null">,house_holder_id=#{gcStatUserViolation.houseHolderId}</if>
+                    <if test="gcStatUserViolation.violationAmount!=null">,violation_amount=#{gcStatUserViolation.violationAmount}</if>
+                    <if test="gcStatUserViolation.lastViolationRecordId!=null">,last_violation_record_id=#{gcStatUserViolation.lastViolationRecordId}</if>
+                    <if test="gcStatUserViolation.isExposure!=null">,is_exposure=#{gcStatUserViolation.isExposure}</if>
+                    <if test="gcStatUserViolation.updateTime!=null">,update_time=#{gcStatUserViolation.updateTime}</if>
+        where id = #{gcStatUserViolation.id} limit 1
+    </update>
+</mapper>

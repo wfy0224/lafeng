@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jd.mlz.module.module.house.mapper.HouseHolderMapper">
+    <insert id="insert" parameterType="jd.mlz.module.module.house.entity.HouseHolder" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into house_holder(
+                    <if test="houseHolder.houseId!=null">house_id, </if>
+                    <if test="houseHolder.userId!=null">user_id, </if>
+                    <if test="houseHolder.isHolder!=null">is_holder, </if>
+                    <if test="houseHolder.isPermanent!=null">is_permanent, </if>
+                    <if test="houseHolder.createTime!=null">create_time, </if>
+                    <if test="houseHolder.updateTime!=null">update_time, </if>
+                    is_deleted
+        )values(
+                    <if test="houseHolder.houseId!=null">#{houseHolder.houseId}, </if>
+                    <if test="houseHolder.userId!=null">#{houseHolder.userId}, </if>
+                    <if test="houseHolder.isHolder!=null">#{houseHolder.isHolder}, </if>
+                    <if test="houseHolder.isPermanent!=null">#{houseHolder.isPermanent}, </if>
+                    <if test="houseHolder.createTime!=null">#{houseHolder.createTime}, </if>
+                    <if test="houseHolder.updateTime!=null">#{houseHolder.updateTime}, </if>
+                    #{houseHolder.isDeleted}
+        )
+    </insert>
+
+    <update id="update" parameterType="jd.mlz.module.module.house.entity.HouseHolder" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        update house_holder
+        set id=#{houseHolder.id}
+                    <if test="houseHolder.houseId!=null">,house_id=#{houseHolder.houseId}</if>
+                    <if test="houseHolder.userId!=null">,user_id=#{houseHolder.userId}</if>
+                    <if test="houseHolder.isHolder!=null">,is_holder=#{houseHolder.isHolder}</if>
+                    <if test="houseHolder.isPermanent!=null">,is_permanent=#{houseHolder.isPermanent}</if>
+                    <if test="houseHolder.updateTime!=null">,update_time=#{houseHolder.updateTime}</if>
+        where id = #{houseHolder.id} limit 1
+    </update>
+</mapper>

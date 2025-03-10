@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jd.mlz.module.module.gcRecord.mapper.GcExportTaskCrondMapper">
+    <insert id="insert" parameterType="jd.mlz.module.module.gcRecord.entity.GcExportTaskCrond" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into gc_export_task_crond(
+                    <if test="gcExportTaskCrond.taskId!=null">task_id, </if>
+                    <if test="gcExportTaskCrond.isRun!=null">is_run, </if>
+                    <if test="gcExportTaskCrond.isEnd!=null">is_end, </if>
+                    <if test="gcExportTaskCrond.createTime!=null">create_time, </if>
+                    <if test="gcExportTaskCrond.updateTime!=null">update_time, </if>
+                    is_deleted
+        )values(
+                    <if test="gcExportTaskCrond.taskId!=null">#{gcExportTaskCrond.taskId}, </if>
+                    <if test="gcExportTaskCrond.isRun!=null">#{gcExportTaskCrond.isRun}, </if>
+                    <if test="gcExportTaskCrond.isEnd!=null">#{gcExportTaskCrond.isEnd}, </if>
+                    <if test="gcExportTaskCrond.createTime!=null">#{gcExportTaskCrond.createTime}, </if>
+                    <if test="gcExportTaskCrond.updateTime!=null">#{gcExportTaskCrond.updateTime}, </if>
+                    #{gcExportTaskCrond.isDeleted}
+        )
+    </insert>
+
+    <update id="update" parameterType="jd.mlz.module.module.gcRecord.entity.GcExportTaskCrond" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        update gc_export_task_crond
+        set task_id=#{gcExportTaskCrond.taskId}
+                    <if test="gcExportTaskCrond.isRun!=null">,is_run=#{gcExportTaskCrond.isRun}</if>
+                    <if test="gcExportTaskCrond.isEnd!=null">,is_end=#{gcExportTaskCrond.isEnd}</if>
+                    <if test="gcExportTaskCrond.updateTime!=null">,update_time=#{gcExportTaskCrond.updateTime}</if>
+        where task_id = #{gcExportTaskCrond.taskId} limit 1
+    </update>
+</mapper>

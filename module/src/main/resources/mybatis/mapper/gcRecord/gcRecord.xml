@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jd.mlz.module.module.gcRecord.mapper.GcRecordMapper">
+    <insert id="insert" parameterType="jd.mlz.module.module.gcRecord.entity.GcRecord" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into gc_record(
+                    <if test="gcRecord.gcType!=null">gc_type, </if>
+                    <if test="gcRecord.houseId!=null">house_id, </if>
+                    <if test="gcRecord.houseHolderId!=null">house_holder_id, </if>
+                    <if test="gcRecord.userId!=null">user_id, </if>
+                    <if test="gcRecord.garbageClassification!=null">garbage_classification, </if>
+                    <if test="gcRecord.garbageWeight!=null">garbage_weight, </if>
+                    <if test="gcRecord.result!=null">result, </if>
+                    <if test="gcRecord.deviceId!=null">device_id, </if>
+                    <if test="gcRecord.deviceBinId!=null">device_bin_id, </if>
+                    <if test="gcRecord.contractorId!=null">contractor_id, </if>
+                    <if test="gcRecord.contractorUserId!=null">contractor_user_id, </if>
+                    <if test="gcRecord.regionId!=null">region_id, </if>
+                    <if test="gcRecord.address!=null and gcRecord.address!=''">address,</if>
+                    <if test="gcRecord.longitude!=null">longitude, </if>
+                    <if test="gcRecord.latitude!=null">latitude, </if>
+                    <if test="gcRecord.facePhoto!=null and gcRecord.facePhoto!=''">face_photo,</if>
+                    <if test="gcRecord.lastBinPhoto!=null and gcRecord.lastBinPhoto!=''">last_bin_photo,</if>
+                    <if test="gcRecord.statStatus!=null">stat_status, </if>
+                    <if test="gcRecord.operateTime!=null">operate_time, </if>
+                    <if test="gcRecord.createTime!=null">create_time, </if>
+                    <if test="gcRecord.updateTime!=null">update_time, </if>
+                    is_deleted
+        )values(
+                    <if test="gcRecord.gcType!=null">#{gcRecord.gcType}, </if>
+                    <if test="gcRecord.houseId!=null">#{gcRecord.houseId}, </if>
+                    <if test="gcRecord.houseHolderId!=null">#{gcRecord.houseHolderId}, </if>
+                    <if test="gcRecord.userId!=null">#{gcRecord.userId}, </if>
+                    <if test="gcRecord.garbageClassification!=null">#{gcRecord.garbageClassification}, </if>
+                    <if test="gcRecord.garbageWeight!=null">#{gcRecord.garbageWeight}, </if>
+                    <if test="gcRecord.result!=null">#{gcRecord.result}, </if>
+                    <if test="gcRecord.deviceId!=null">#{gcRecord.deviceId}, </if>
+                    <if test="gcRecord.deviceBinId!=null">#{gcRecord.deviceBinId}, </if>
+                    <if test="gcRecord.contractorId!=null">#{gcRecord.contractorId}, </if>
+                    <if test="gcRecord.contractorUserId!=null">#{gcRecord.contractorUserId}, </if>
+                    <if test="gcRecord.regionId!=null">#{gcRecord.regionId}, </if>
+                    <if test="gcRecord.address!=null and gcRecord.address!=''">#{gcRecord.address},</if>
+                    <if test="gcRecord.longitude!=null">#{gcRecord.longitude}, </if>
+                    <if test="gcRecord.latitude!=null">#{gcRecord.latitude}, </if>
+                    <if test="gcRecord.facePhoto!=null and gcRecord.facePhoto!=''">#{gcRecord.facePhoto},</if>
+                    <if test="gcRecord.lastBinPhoto!=null and gcRecord.lastBinPhoto!=''">#{gcRecord.lastBinPhoto},</if>
+                    <if test="gcRecord.statStatus!=null">#{gcRecord.statStatus}, </if>
+                    <if test="gcRecord.operateTime!=null">#{gcRecord.operateTime}, </if>
+                    <if test="gcRecord.createTime!=null">#{gcRecord.createTime}, </if>
+                    <if test="gcRecord.updateTime!=null">#{gcRecord.updateTime}, </if>
+                    #{gcRecord.isDeleted}
+        )
+    </insert>
+
+    <update id="update" parameterType="jd.mlz.module.module.gcRecord.entity.GcRecord" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        update gc_record
+        set id=#{gcRecord.id}
+                    <if test="gcRecord.gcType!=null">,gc_type=#{gcRecord.gcType}</if>
+                    <if test="gcRecord.houseId!=null">,house_id=#{gcRecord.houseId}</if>
+                    <if test="gcRecord.houseHolderId!=null">,house_holder_id=#{gcRecord.houseHolderId}</if>
+                    <if test="gcRecord.userId!=null">,user_id=#{gcRecord.userId}</if>
+                    <if test="gcRecord.garbageClassification!=null">,garbage_classification=#{gcRecord.garbageClassification}</if>
+                    <if test="gcRecord.garbageWeight!=null">,garbage_weight=#{gcRecord.garbageWeight}</if>
+                    <if test="gcRecord.result!=null">,result=#{gcRecord.result}</if>
+                    <if test="gcRecord.deviceId!=null">,device_id=#{gcRecord.deviceId}</if>
+                    <if test="gcRecord.deviceBinId!=null">,device_bin_id=#{gcRecord.deviceBinId}</if>
+                    <if test="gcRecord.contractorId!=null">,contractor_id=#{gcRecord.contractorId}</if>
+                    <if test="gcRecord.contractorUserId!=null">,contractor_user_id=#{gcRecord.contractorUserId}</if>
+                    <if test="gcRecord.regionId!=null">,region_id=#{gcRecord.regionId}</if>
+                    <if test="gcRecord.address!=null and gcRecord.address!=''">,address=#{gcRecord.address}</if>
+                    <if test="gcRecord.longitude!=null">,longitude=#{gcRecord.longitude}</if>
+                    <if test="gcRecord.latitude!=null">,latitude=#{gcRecord.latitude}</if>
+                    <if test="gcRecord.facePhoto!=null and gcRecord.facePhoto!=''">,face_photo=#{gcRecord.facePhoto}</if>
+                    <if test="gcRecord.lastBinPhoto!=null and gcRecord.lastBinPhoto!=''">,last_bin_photo=#{gcRecord.lastBinPhoto}</if>
+                    <if test="gcRecord.statStatus!=null">,stat_status=#{gcRecord.statStatus}</if>
+                    <if test="gcRecord.operateTime!=null">,operate_time=#{gcRecord.operateTime}</if>
+                    <if test="gcRecord.updateTime!=null">,update_time=#{gcRecord.updateTime}</if>
+        where id = #{gcRecord.id} limit 1
+    </update>
+
+    <select id="getGcRecordList" resultType="jd.mlz.module.module.gcRecord.entity.GcRecord">
+        select * from gc_record
+        where
+            region_id=#{regionId}
+        <if test="recordStartTime != null and recordEndTime != null">
+            AND create_time BETWEEN #{recordStartTime} AND #{recordEndTime}
+        </if>
+        <if test="result != null">
+            AND result = #{result}
+        </if>
+        <if test="offset != null and pageSize != null">
+            limit #{offset},#{pageSize}
+        </if>
+    </select>
+
+    <select id="getTotal" resultType="java.lang.Integer">
+        select count(1) from gc_record
+        where
+            region_id=#{regionId}
+        <if test="recordStartTime != null and recordEndTime != null">
+            AND create_time BETWEEN #{recordStartTime} AND #{recordEndTime}
+        </if>
+        <if test="result != null">
+            AND result = #{result}
+        </if>
+    </select>
+
+</mapper>

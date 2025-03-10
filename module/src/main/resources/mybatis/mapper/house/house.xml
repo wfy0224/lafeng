@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jd.mlz.module.module.house.mapper.HouseMapper">
+    <insert id="insert" parameterType="jd.mlz.module.module.house.entity.House" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into house(
+                    <if test="house.regionId!=null">region_id, </if>
+                    <if test="house.address!=null and house.address!=''">address,</if>
+                    <if test="house.createTime!=null">create_time, </if>
+                    <if test="house.updateTime!=null">update_time, </if>
+                    is_deleted
+        )values(
+                    <if test="house.regionId!=null">#{house.regionId}, </if>
+                    <if test="house.address!=null and house.address!=''">#{house.address},</if>
+                    <if test="house.createTime!=null">#{house.createTime}, </if>
+                    <if test="house.updateTime!=null">#{house.updateTime}, </if>
+                    #{house.isDeleted}
+        )
+    </insert>
+
+    <update id="update" parameterType="jd.mlz.module.module.house.entity.House" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        update house
+        set id=#{house.id}
+                    <if test="house.regionId!=null">,region_id=#{house.regionId}</if>
+                    <if test="house.address!=null and house.address!=''">,address=#{house.address}</if>
+                    <if test="house.updateTime!=null">,update_time=#{house.updateTime}</if>
+        where id = #{house.id} limit 1
+    </update>
+</mapper>
