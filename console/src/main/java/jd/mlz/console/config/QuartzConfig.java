@@ -9,7 +9,7 @@ import org.quartz.*;
  * * @date 2025-03-09
  */
 
-@Configuration
+//@Configuration
 public class QuartzConfig {
 
     @Bean
@@ -27,7 +27,7 @@ public class QuartzConfig {
                 .withIdentity("myTrigger", "group1")
                 .startNow()
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule()
-                        .withIntervalInSeconds(10) // 每 10 秒执行一次
+                        .withIntervalInSeconds(1) // 每 1 秒执行一次
                         .repeatForever())
                 .build();
     }

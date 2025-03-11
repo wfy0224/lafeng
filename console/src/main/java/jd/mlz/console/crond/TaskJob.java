@@ -45,14 +45,14 @@ public class TaskJob extends QuartzJobBean {
     private RegionService regionService;
     @Override
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
-        //拉取需要执行的任务id
-        List<BigInteger> taskIdList = gcRecordBaseService.getExecutableTasksId();
-        for (BigInteger taskId : taskIdList){
+        //拉取需要执行的任务
+        List<GcExportTask> taskList = gcRecordBaseService.getExecutableTasks();
+        for (GcExportTask task : taskList){
             //尝试获取乐观锁
-            if (!BaseUtils.isEmpty(gcRecordBaseService.editTaskStatusToRunning(taskId))){
-                Integer timeStart = BaseUtils.currentSeconds();
-                //查询任务信息
-                GcExportTask task = gcRecordBaseService.getTaskByTaskId(taskId);
+            if (!BaseUtils.isEmpty(gcRecordBaseService.getLock(task.getId()))){
+                int timeStart = (int) System.currentTimeMillis() ;
+
+                //根据条件获取不合格记录列表
                 List<GcRecord> unqualifiedGcRecordList = gcRecordBaseService.getUnqualifiedGcRecordList(task.getRegionId(), task.getStartTime(), task.getEndTime());
                 List<BigInteger> userIdList = new ArrayList<>();
                 List<BigInteger> regionIdList = new ArrayList<>();
@@ -74,7 +74,6 @@ public class TaskJob extends QuartzJobBean {
                     regionIdAndNameMap.put(regionDTO.getId(),regionDTO.getRegionFullName());
                 }
 
-
                 //组装
                 List<GcExportExcelVO> excelVOList = new ArrayList<>();
                 for (GcRecord gcRecord : unqualifiedGcRecordList){
@@ -93,25 +92,15 @@ public class TaskJob extends QuartzJobBean {
                 String uuid = UUID.randomUUID().toString().replace("-", "");
                 String fileName = uuid+".xlsx";
                 try {
-                    String pathAndUrl = OSSUtils.uploadExcelStreamToOSS(excelVOList, GcExportExcelVO.class, fileName);
-                    BigInteger id = gcRecordBaseService.editTask(taskId,fileName, SpringUtils.getProperty("BUCKET_NAME"),
-                            pathAndUrl.split("\\$")[0], pathAndUrl.split("\\$")[1], null,BaseUtils.currentSeconds()-timeStart);
+                    String url = OSSUtils.uploadExcelStreamToOSS(excelVOList, GcExportExcelVO.class, fileName);
+                    int timeEnd = (int)System.currentTimeMillis();
+                    BigInteger id = gcRecordBaseService.editTaskToEnd(task.getId(),url, timeEnd-timeStart);
                     if (BaseUtils.isEmpty(id)){
-                        throw new RuntimeException("任务表回写失败"+taskId);
+                        throw new RuntimeException("任务表回写失败"+task.getId());
                     }
                 } catch (IOException e) {
                     log.info("导出Excel失败"+e.getMessage());
-                    BigInteger id = gcRecordBaseService.editTask(taskId,null, SpringUtils.getProperty("BUCKET_NAME"),
-                            null, null, e.getMessage(),BaseUtils.currentSeconds()-timeStart);
-                    if (BaseUtils.isEmpty(id)){
-                        throw new RuntimeException("任务表回写失败"+taskId);
-                    }
                     throw new RuntimeException(e);
-                }
-                //修改任务状态
-                BigInteger crondId = gcRecordBaseService.editTaskStatusToEnd(taskId);
-                if (BaseUtils.isEmpty(crondId)){
-                    throw new RuntimeException("任务状态表回写失败"+taskId);
                 }
 
             }

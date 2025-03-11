@@ -33,6 +33,6 @@ public interface UserMapper{
     @Update("update user set update_time=#{time},is_deleted=1 where id = #{id} limit 1")
     int delete(@Param("id") BigInteger id,@Param("time")Integer time);
 
-    @Select("select id,real_name from user where id in (#{ids})")
+    @Select("select id,real_name from user where id in (${ids})")
     List<UserDTO> getNameByIds(@Param("ids") String ids);
 }

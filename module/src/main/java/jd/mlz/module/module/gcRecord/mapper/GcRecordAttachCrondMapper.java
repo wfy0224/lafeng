@@ -21,12 +21,12 @@ public interface GcRecordAttachCrondMapper{
 
     int update(@Param("gcRecordAttachCrond") GcRecordAttachCrond gcRecordAttachCrond);
 
-    @Select("select * from gc_record_attach_crond where id=#{id} and is_deleted=0 limit 1")
+    @Select("select * from gc_record_attach_crond where id=#{id} limit 1")
     GcRecordAttachCrond getById(@Param("id") BigInteger id);
 
     @Select("select * from gc_record_attach_crond where id=#{id} limit 1")
     GcRecordAttachCrond extractById(@Param("id") BigInteger id);
 
-    @Update("update gc_record_attach_crond set update_time=#{time},is_deleted=1 where id = #{id} limit 1")
+    @Update("update gc_record_attach_crond set update_time=#{time} where id = #{id} limit 1")
     int delete(@Param("id") BigInteger id,@Param("time")Integer time);
 }

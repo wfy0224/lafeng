@@ -115,7 +115,7 @@ public class OSSUtils {
             ossClient.putObject(putObjectRequest);
 
             log.info("Excel流上传成功: " + key);
-            return key+"$"+"https://" + BUCKET_NAME + "." + ENDPOINT + "/" + key;
+            return "https://" + BUCKET_NAME + "." + ENDPOINT + "/" + key;
         } catch (Exception e) {
             System.err.println("Excel流上传失败: " + e.getMessage());
             throw new IOException("上传Excel流到OSS失败", e);

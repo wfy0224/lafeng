@@ -33,10 +33,7 @@ public class UserService {
         if (BaseUtils.isEmpty(idList)){
             return null;
         }
-        StringBuilder ids = new StringBuilder();
-        for (BigInteger bigInteger : idList) {
-            ids.append(bigInteger).append(",");
-        }
-        return userMapper.getNameByIds(ids.substring(0,ids.length()-1).toString());
+        String ids = BaseUtils.convertIdsToString(idList);
+        return userMapper.getNameByIds(ids);
     }
 }

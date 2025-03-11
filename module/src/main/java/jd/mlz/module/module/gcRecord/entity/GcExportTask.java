@@ -17,7 +17,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author wangfeiyu
- * @since 2025-03-08
+ * @since 2025-03-10
  */
 @Data
 @Accessors(chain = true)
@@ -29,38 +29,29 @@ public class GcExportTask{
     //任务类型（1-违规投放记录）
     private Integer taskType;
 
-    //筛选区域ID
+    //查询区域ID（快照）
     private BigInteger regionId;
 
-    //筛选起始时间
+    //查询起始时间（快照）
     private Integer startTime;
 
-    //筛选结束时间
+    //查询结束时间（快照）
     private Integer endTime;
 
     //分类结果过滤
     private Integer result;
 
-    //生成文件名（UUID命名）
-    private String fileName;
-
-    //OSS存储桶名
-    private String ossBucket;
-
-    //OSS存储路径
-    private String ossPath;
-
     //下载URL
-    private String ossUrl;
-
-    //错误信息
-    private String errorMsg;
+    private String fileUrl;
 
     //创建人ID
     private BigInteger userId;
 
     //处理时间
     private Integer processTime;
+
+    //任务状态：0未开始；1已执行
+    private Integer status;
 
     //创建时间
     private Integer createTime;

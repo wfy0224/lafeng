@@ -22,8 +22,7 @@ public class GcRecordBaseService {
     private GcRecordService gcRecordService;
     @Resource
     private GcExportTaskService gcExportTaskService;
-    @Resource
-    private GcExportTaskCrondService gcExportTaskCrondService;
+
     @Resource
     private RegionService regionService;
 
@@ -64,16 +63,15 @@ public class GcRecordBaseService {
     }
 
     //task
-    public BigInteger editTask(BigInteger taskId,String fileName,String ossBucket, String ossPath,String ossUrl,
-                               String errorMsg,Integer processTime){
-        return gcExportTaskService.editTask(taskId, null, null, null, null, fileName, ossBucket, ossPath, ossUrl, errorMsg, processTime,null);
+    public BigInteger editTask(BigInteger taskId,String ossUrl,Integer processTime){
+        return gcExportTaskService.editTask(taskId, null, null, null, null, ossUrl, processTime,null);
     }
     public BigInteger addTask(BigInteger regionId, Integer recordStartTime, Integer recordEndTime,BigInteger userId) {
         if (BaseUtils.isEmpty(regionId) || BaseUtils.isEmpty(recordStartTime) || BaseUtils.isEmpty(recordEndTime)
                 || BaseUtils.isEmpty(regionService.getById(regionId)) || BaseUtils.isEmpty(userId)) {
             return null;
         }
-        return gcExportTaskService.editTask(null, regionId, recordStartTime, recordEndTime, 0, null, null, null, null, null, null,userId);
+        return gcExportTaskService.editTask(null, regionId, recordStartTime, recordEndTime, 0, null, null,userId);
     }
 
     public Integer getTaskTotal(BigInteger userId){
@@ -84,21 +82,19 @@ public class GcRecordBaseService {
         return gcExportTaskService.getDownloadList(userId,page,pageSize);
     }
 
-    public GcExportTask getTaskByTaskId(BigInteger taskId){
+    public List<GcExportTask> getExecutableTasks() {
+        return gcExportTaskService.getExecutableTasks();
+    }
+
+    public GcExportTask getTaskById(BigInteger taskId) {
         return gcExportTaskService.getTaskByTaskId(taskId);
     }
-    //TaskCrond
-    public List<BigInteger> getExecutableTasksId() {
-        return gcExportTaskCrondService.getNotExecutedTaskId();
+    public BigInteger editTaskToEnd(BigInteger taskId,String url,Integer processTime) {
+
+        return gcExportTaskService.editTask(taskId, null, null, null, null,url,processTime,null);
     }
 
-
-    public BigInteger editTaskStatusToRunning(BigInteger taskId) {
-
-        return gcExportTaskCrondService.editTaskStatus(taskId, true, false);
-    }
-    public BigInteger editTaskStatusToEnd(BigInteger taskId) {
-
-        return gcExportTaskCrondService.editTaskStatus(taskId, false, true);
+    public boolean getLock(BigInteger taskId) {
+        return gcExportTaskService.getLock(taskId);
     }
 }

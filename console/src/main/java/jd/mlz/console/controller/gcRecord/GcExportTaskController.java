@@ -2,6 +2,7 @@ package jd.mlz.console.controller.gcRecord;
 
 import jd.mlz.console.domain.GcExportTaskVO;
 import jd.mlz.console.domain.PagingVO;
+import jd.mlz.console.mq.MQProducer;
 import jd.mlz.module.module.gcRecord.dto.GcExportTaskDTO;
 import jd.mlz.module.module.gcRecord.service.GcRecordBaseService;
 import jd.mlz.module.module.region.dto.RegionDTO;
@@ -9,6 +10,7 @@ import jd.mlz.module.module.region.service.RegionService;
 import jd.mlz.module.utils.BaseUtils;
 import jd.mlz.module.utils.Response;
 import jd.mlz.module.utils.SpringUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +26,7 @@ import java.util.List;
  * * @date 2025-03-08
  */
 
+@Slf4j
 @RestController
 public class GcExportTaskController {
 
@@ -32,6 +35,9 @@ public class GcExportTaskController {
 
     @Autowired
     private RegionService regionService;
+
+    @Autowired
+    private MQProducer mqProducer;
     @RequestMapping("/collection_records/violations/add_download_task")
     public Response addDownloadTask(@RequestParam("regionId")String regionId,
                                     @RequestParam("startTime")String startTime,
@@ -47,6 +53,8 @@ public class GcExportTaskController {
         if (BaseUtils.isEmpty(taskId)){
             return new Response(3002);
         }
+        //发送任务id到mq
+        mqProducer.send(taskId);
         return new Response(3001);
     }
 

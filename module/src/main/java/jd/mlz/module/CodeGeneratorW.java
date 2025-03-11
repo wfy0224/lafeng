@@ -21,10 +21,10 @@ import java.util.List;
 public class CodeGeneratorW {
 
     //表名
-    final static String TABLE_NAME = "user";
+    final static String TABLE_NAME = "gc_export_task";
     final static String PROJECT_PATH = System.getProperty("user.dir");
     final static String MODULE = "module";
-    final static String PACKAGE_NAME = "jd.mlz.module.module.user";
+    final static String PACKAGE_NAME = "jd.mlz.module.module.gcRecord";
     final static String AUTHOR = "wangfeiyu";
     final static String DATABASE_URL = "jdbc:mysql://localhost:3306/lafeng?useSSL=false&serverTimezone=UTC";
     final static String DATABASE_USERNAME = "root";
