@@ -1,4 +1,4 @@
-package jd.mlz.console.crond;
+package jd.mlz.console.job;
 
 import jd.mlz.console.domain.GcExportExcelVO;
 import jd.mlz.module.module.gcRecord.entity.GcExportTask;
@@ -10,9 +10,9 @@ import jd.mlz.module.module.user.dto.UserDTO;
 import jd.mlz.module.module.user.service.UserService;
 import jd.mlz.module.utils.BaseUtils;
 import jd.mlz.module.utils.OSSUtils;
-import jd.mlz.module.utils.SpringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.DisallowConcurrentExecution;
+import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ import java.util.UUID;
 @Slf4j
 @DisallowConcurrentExecution
 @Component
-public class TaskJob extends QuartzJobBean {
+public class TaskJob implements Job {
 
     @Autowired
     private GcRecordBaseService gcRecordBaseService;
@@ -43,8 +43,10 @@ public class TaskJob extends QuartzJobBean {
     private UserService userService;
     @Autowired
     private RegionService regionService;
+
     @Override
-    protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
+    public void execute(JobExecutionContext context) throws JobExecutionException {
+        log.info("job开始执行任务");
         //拉取需要执行的任务
         List<GcExportTask> taskList = gcRecordBaseService.getExecutableTasks();
         for (GcExportTask task : taskList){

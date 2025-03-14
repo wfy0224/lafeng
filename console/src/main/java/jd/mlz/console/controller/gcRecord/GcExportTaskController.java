@@ -54,7 +54,7 @@ public class GcExportTaskController {
             return new Response(3002);
         }
         //发送任务id到mq
-        mqProducer.send(taskId);
+//        mqProducer.send(taskId);
         return new Response(3001);
     }
 
