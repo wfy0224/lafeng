@@ -27,6 +27,12 @@ public class ResponseCode {
         statusMap.put(3004, "任务删除失败");
         statusMap.put(3005, "任务更新成功");
         statusMap.put(3006, "任务更新失败");
+        statusMap.put(3007, "任务暂停成功");
+        statusMap.put(3008, "任务暂停失败");
+        statusMap.put(3009, "任务恢复成功");
+        statusMap.put(3010, "任务恢复失败");
+        statusMap.put(3011, "任务触发成功");
+        statusMap.put(3012, "任务触发失败");
 
         statusMap.put(4003, "没有权限");
         statusMap.put(4004, "链接超时");

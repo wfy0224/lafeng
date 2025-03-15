@@ -3,6 +3,7 @@ package jd.mlz.console.job;
 import jd.mlz.console.domain.GcExportExcelVO;
 import jd.mlz.module.module.gcRecord.entity.GcExportTask;
 import jd.mlz.module.module.gcRecord.entity.GcRecord;
+import jd.mlz.module.module.gcRecord.entity.GcTaskBatch;
 import jd.mlz.module.module.gcRecord.service.GcRecordBaseService;
 import jd.mlz.module.module.region.dto.RegionDTO;
 import jd.mlz.module.module.region.service.RegionService;
@@ -16,7 +17,6 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -46,12 +46,26 @@ public class TaskJob implements Job {
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
-        log.info("job开始执行任务");
+        log.info("TaskJob开始执行任务");
+        //拉取批次
+        List<GcTaskBatch> taskBatches = gcRecordBaseService.getTaskBatches();
+        GcTaskBatch batch = new GcTaskBatch();
+        //占用批次
+        for (GcTaskBatch taskBatch : taskBatches){
+            if (!BaseUtils.isEmpty(gcRecordBaseService.getBatchLock(taskBatch.getId()))){
+                batch = taskBatch;
+                break;
+            }
+        }
         //拉取需要执行的任务
-        List<GcExportTask> taskList = gcRecordBaseService.getExecutableTasks();
+        List<GcExportTask> taskList = gcRecordBaseService.getExecutableTasksByBatch(batch.getStartTaskId(),batch.getEndTaskId());
+        if (BaseUtils.isEmpty(taskList)){
+            log.info("没有需要执行的任务");
+            return;
+        }
         for (GcExportTask task : taskList){
             //尝试获取乐观锁
-            if (!BaseUtils.isEmpty(gcRecordBaseService.getLock(task.getId()))){
+            if (!BaseUtils.isEmpty(gcRecordBaseService.getTaskLock(task.getId()))){
                 int timeStart = (int) System.currentTimeMillis() ;
 
                 //根据条件获取不合格记录列表
@@ -106,6 +120,9 @@ public class TaskJob implements Job {
                 }
 
             }
+        }
+        if (!BaseUtils.isEmpty(gcRecordBaseService.editTaskBatchEndTime(batch.getId()))){
+            log.info("任务批次完成"+batch.getId());
         }
     }
 }

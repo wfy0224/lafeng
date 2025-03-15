@@ -3,6 +3,7 @@ package jd.mlz.module.module.gcRecord.service;
 import jd.mlz.module.module.gcRecord.dto.GcExportTaskDTO;
 import jd.mlz.module.module.gcRecord.entity.GcExportTask;
 import jd.mlz.module.module.gcRecord.entity.GcRecord;
+import jd.mlz.module.module.gcRecord.entity.GcTaskBatch;
 import jd.mlz.module.module.region.service.RegionService;
 import jd.mlz.module.utils.BaseUtils;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,8 @@ public class GcRecordBaseService {
     @Resource
     private RegionService regionService;
 
+    @Resource
+    private GcTaskBatchService gcTaskBatchService;
     //recordList
 
     public List<GcRecord> getGcRecordList(BigInteger regionId, Integer recordStartTime, Integer recordEndTime,
@@ -94,7 +97,48 @@ public class GcRecordBaseService {
         return gcExportTaskService.editTask(taskId, null, null, null, null,url,processTime,null);
     }
 
-    public boolean getLock(BigInteger taskId) {
+    public boolean getTaskLock(BigInteger taskId) {
         return gcExportTaskService.getLock(taskId);
+    }
+
+    public List<GcExportTask> getExecutableTasksByBatch(BigInteger startTaskId, BigInteger endTaskId) {
+        if (BaseUtils.isEmpty(startTaskId) || BaseUtils.isEmpty(endTaskId)){
+            return null;
+        }
+        return gcExportTaskService.getExecutableTasksByBatch(startTaskId,endTaskId);
+    }
+
+    //batch
+    public List<GcTaskBatch> getTaskBatches(){
+        return gcTaskBatchService.getTaskBatches();
+    }
+    public boolean getBatchLock(BigInteger batchId) {
+        return gcTaskBatchService.getLock(batchId);
+    }
+
+
+    public BigInteger editTaskBatchEndTime(BigInteger id) {
+        if (BaseUtils.isEmpty(id)){
+            return null;
+        }
+        return gcTaskBatchService.edit(id,null,null,null,null,BaseUtils.currentSeconds());
+    }
+
+    public GcTaskBatch getLastTaskBatch() {
+        return gcTaskBatchService.getLastTaskBatch();
+    }
+
+    public List<BigInteger> getTaskIdList(BigInteger endTaskId) {
+        if (BaseUtils.isEmpty(endTaskId)){
+            return null;
+        }
+        return gcExportTaskService.getTaskIdList(endTaskId);
+    }
+
+    public BigInteger addTaskBatch(BigInteger startTaskId, BigInteger endTaskId) {
+        if (BaseUtils.isEmpty(startTaskId) || BaseUtils.isEmpty(endTaskId)){
+            return null;
+        }
+        return gcTaskBatchService.edit(null,0,startTaskId,endTaskId,null,null);
     }
 }

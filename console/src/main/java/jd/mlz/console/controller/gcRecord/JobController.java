@@ -27,49 +27,65 @@ public class JobController {
     private JobService jobService;
 
     @RequestMapping("/api/jobs/all")
-    public Response getAllJobs() throws SchedulerException {
+    public Response getAllJobs(@RequestParam("page")Integer page, @RequestParam("pageSize")Integer pageSize) throws SchedulerException {
         List<JobDTO> allJobs = jobService.getAllJobs();
+        page = page == null || page < 1 ? 1 : page;
+        int total = allJobs.size();
+        int start = (page - 1) * pageSize;
+        int end = Math.min(start + pageSize, allJobs.size());
         PagingVO pagingVO = new PagingVO();
-        pagingVO.setList(allJobs);
-        pagingVO.setPage(1);
-        pagingVO.setTotal(allJobs.size());
+        pagingVO.setList(allJobs.subList(start,end));
+        pagingVO.setPage(page);
+        pagingVO.setTotal(total);
         return new Response(1001,pagingVO);
     }
 
     @RequestMapping("/api/jobs/create")
     public Response createJob(@RequestParam String jobClass,  @RequestParam String jobGroup, @RequestParam String jobName, @RequestParam String description, @RequestParam String cronExpression) {
-        jobService.createJob(jobClass, jobName, jobGroup, description, cronExpression);
-        return new Response(1001);
+        if(jobService.createJob(jobClass, jobName, jobGroup, description, cronExpression)){
+            return new Response(3001);
+        }
+        return new Response(3002);
     }
 
     @RequestMapping("/api/jobs/update")
     public Response updateJob(@RequestParam String jobGroup, @RequestParam String jobName, @RequestParam String description, @RequestParam String cronExpression) {
-        jobService.updateJob(jobGroup, jobName, description,cronExpression);
-        return new Response(1001);
+        if(jobService.updateJob(jobGroup, jobName, description,cronExpression)){
+            return new Response(3005);
+        }
+        return new Response(3006);
     }
 
     @RequestMapping("/api/jobs/delete")
     public Response deleteJob(@RequestParam String jobGroup, @RequestParam String jobName) {
-        jobService.deleteJob(jobGroup, jobName);
-        return new Response(1001);
+        if(jobService.deleteJob(jobGroup, jobName)){
+            return new Response(3003);
+        }
+        return new Response(3004);
     }
 
     @RequestMapping("/api/jobs/pause")
     public Response pauseJob(@RequestParam String jobGroup, @RequestParam String jobName) {
-        jobService.pauseJob(jobGroup, jobName);
-        return new Response(1001);
+        if(jobService.pauseJob(jobGroup, jobName)){
+            return new Response(3007);
+        }
+        return new Response(3008);
     }
 
     @RequestMapping("/api/jobs/resume")
     public Response resumeJob(@RequestParam String jobGroup, @RequestParam String jobName) {
-        jobService.resumeJob(jobGroup, jobName);
-        return new Response(1001);
+        if(jobService.resumeJob(jobGroup, jobName)){
+            return new Response(3009);
+        }
+        return new Response(3010);
     }
 
     @RequestMapping("/api/jobs/trigger")
     public Response triggerJob(@RequestParam String jobGroup, @RequestParam String jobName) {
-        jobService.triggerJob(jobGroup, jobName);
-        return new Response(1001);
+        if(jobService.triggerJob(jobGroup, jobName)){
+            return new Response(3011);
+        }
+        return new Response(3012);
     }
 
     @RequestMapping("/api/job_groups/all")

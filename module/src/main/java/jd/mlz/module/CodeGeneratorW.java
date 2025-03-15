@@ -21,7 +21,7 @@ import java.util.List;
 public class CodeGeneratorW {
 
     //表名
-    final static String TABLE_NAME = "gc_export_task";
+    final static String TABLE_NAME = "gc_task_batch";
     final static String PROJECT_PATH = System.getProperty("user.dir");
     final static String MODULE = "module";
     final static String PACKAGE_NAME = "jd.mlz.module.module.gcRecord";

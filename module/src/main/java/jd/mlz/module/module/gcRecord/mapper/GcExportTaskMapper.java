@@ -43,4 +43,10 @@ public interface GcExportTaskMapper{
 
     @Update("update gc_export_task set status=1 where id=#{id} and status=0")
     int getLock(@Param("id") BigInteger id);
+
+    @Select("select * from gc_export_task where id between #{startTaskId} and #{endTaskId} and is_deleted=0 and status=0 limit 999")
+    List<GcExportTask> getByBatch(@Param("startTaskId") BigInteger startTaskId, @Param("endTaskId") BigInteger endTaskId);
+
+    @Select("select id from gc_export_task where id > #{endTaskId} and is_deleted=0 and status=0")
+    List<BigInteger> getTaskIdList(BigInteger endTaskId);
 }

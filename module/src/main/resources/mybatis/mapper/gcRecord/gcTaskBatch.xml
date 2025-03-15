@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jd.mlz.module.module.gcRecord.mapper.GcTaskBatchMapper">
+    <insert id="insert" parameterType="jd.mlz.module.module.gcRecord.entity.GcTaskBatch" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into gc_task_batch(
+                    <if test="gcTaskBatch.status!=null">status, </if>
+                    <if test="gcTaskBatch.startTaskId!=null">start_task_id, </if>
+                    <if test="gcTaskBatch.endTaskId!=null">end_task_id, </if>
+                    <if test="gcTaskBatch.startTime!=null">start_time, </if>
+                    <if test="gcTaskBatch.endTime!=null">end_time, </if>
+                    <if test="gcTaskBatch.createTime!=null">create_time, </if>
+                    <if test="gcTaskBatch.updateTime!=null">update_time, </if>
+                    is_deleted
+        )values(
+                    <if test="gcTaskBatch.status!=null">#{gcTaskBatch.status}, </if>
+                    <if test="gcTaskBatch.startTaskId!=null">#{gcTaskBatch.startTaskId}, </if>
+                    <if test="gcTaskBatch.endTaskId!=null">#{gcTaskBatch.endTaskId}, </if>
+                    <if test="gcTaskBatch.startTime!=null">#{gcTaskBatch.startTime}, </if>
+                    <if test="gcTaskBatch.endTime!=null">#{gcTaskBatch.endTime}, </if>
+                    <if test="gcTaskBatch.createTime!=null">#{gcTaskBatch.createTime}, </if>
+                    <if test="gcTaskBatch.updateTime!=null">#{gcTaskBatch.updateTime}, </if>
+                    #{gcTaskBatch.isDeleted}
+        )
+    </insert>
+
+    <update id="update" parameterType="jd.mlz.module.module.gcRecord.entity.GcTaskBatch" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        update gc_task_batch
+        set id=#{gcTaskBatch.id}
+                    <if test="gcTaskBatch.status!=null">,status=#{gcTaskBatch.status}</if>
+                    <if test="gcTaskBatch.startTaskId!=null">,start_task_id=#{gcTaskBatch.startTaskId}</if>
+                    <if test="gcTaskBatch.endTaskId!=null">,end_task_id=#{gcTaskBatch.endTaskId}</if>
+                    <if test="gcTaskBatch.startTime!=null">,start_time=#{gcTaskBatch.startTime}</if>
+                    <if test="gcTaskBatch.endTime!=null">,end_time=#{gcTaskBatch.endTime}</if>
+                    <if test="gcTaskBatch.updateTime!=null">,update_time=#{gcTaskBatch.updateTime}</if>
+        where id = #{gcTaskBatch.id} limit 1
+    </update>
+</mapper>

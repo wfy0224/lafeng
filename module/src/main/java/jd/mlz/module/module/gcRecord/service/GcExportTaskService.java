@@ -136,4 +136,18 @@ public class GcExportTaskService {
         int lines = gcExportTaskMapper.getLock(taskId);
         return lines != 0;
     }
+
+    public List<GcExportTask> getExecutableTasksByBatch(BigInteger startTaskId, BigInteger endTaskId) {
+        if (BaseUtils.isEmpty(startTaskId) || BaseUtils.isEmpty(endTaskId)){
+            return null;
+        }
+        return gcExportTaskMapper.getByBatch(startTaskId,endTaskId);
+    }
+
+    public List<BigInteger> getTaskIdList(BigInteger endTaskId) {
+        if (BaseUtils.isEmpty(endTaskId)){
+            return null;
+        }
+        return gcExportTaskMapper.getTaskIdList(endTaskId);
+    }
 }

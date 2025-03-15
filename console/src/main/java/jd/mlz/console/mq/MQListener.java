@@ -12,10 +12,7 @@ import jd.mlz.module.module.user.service.UserService;
 import jd.mlz.module.utils.BaseUtils;
 import jd.mlz.module.utils.OSSUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Header;
@@ -52,7 +49,7 @@ public class MQListener {
         GcExportTask task = gcRecordBaseService.getTaskById(taskId);
 
         //尝试获取乐观锁
-        if (!BaseUtils.isEmpty(gcRecordBaseService.getLock(task.getId()))) {
+        if (!BaseUtils.isEmpty(gcRecordBaseService.getTaskLock(task.getId()))) {
             int timeStart = (int) System.currentTimeMillis();
 
             //根据条件获取不合格记录列表
